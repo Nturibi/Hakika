@@ -1,5 +1,7 @@
 package com.hakika.hakika.api;
 
+import android.util.Log;
+
 import com.hakika.hakika.R;
 import com.hakika.hakika.api.models.Drug;
 import com.hakika.hakika.api.models.DrugTransfer;
@@ -15,6 +17,7 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.tuples.generated.Tuple4;
 
 
 import java.io.IOException;
@@ -24,8 +27,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import io.ipfs.api.IPFS;
@@ -93,38 +98,88 @@ public class HakikaAPI {
     }
 
     public List<String> getOwnedDrugs(String person) {
-        return null;
+        Observable<DrugSupply.DrugTransferEventResponse> observable =
+                contract.drugTransferEventObservable(DefaultBlockParameterName.EARLIEST,
+                        DefaultBlockParameterName.LATEST);
+        Set<String> ownedDrugs = new HashSet<>();
+        observable.forEach(dter -> {
+            if (dter._to.equalsIgnoreCase(person)) {
+                ownedDrugs.add(dter._tokenId+"");
+            }
+
+            if (dter._from.equalsIgnoreCase(person)) {
+                ownedDrugs.remove(dter._tokenId+"");
+            }
+        });
+        return new ArrayList<>(ownedDrugs);
     }
 
-    public IPFSTag getUserInformation(String user) {
-        return null;
+    public IPFSTag getUserInformation(String user) throws IOException {
+        try {
+            IPFSTag ipfsTag = new IPFSTag(contract.users(user).send().getValue2());
+            ipfsTag.fetchFromIPFS(ipfs);
+            return ipfsTag;
+        } catch (Exception exc) {
+            throw new IOException(exc);
+        }
     }
 
-    public IPFSTag getProducerInformation(String producer) {
-        return null;
+    public IPFSTag getProducerInformation(String producer) throws IOException {
+        try {
+            IPFSTag ipfsTag = new IPFSTag(contract.users(producer).send().getValue1());
+            ipfsTag.fetchFromIPFS(ipfs);
+            return ipfsTag;
+        } catch (Exception exc) {
+            throw new IOException(exc);
+        }
     }
 
-    public String getFriendlyUserName(String user) {
+    public String getFriendlyUserName(String user) throws IOException {
         return getUserInformation(user).getExtraAttributes().get("friendlyName");
     }
 
-    public String getFriendlyProducerName(String producer) {
+    public String getFriendlyProducerName(String producer) throws IOException {
         return getProducerInformation(producer).getExtraAttributes().get("friendlyName");
     }
 
-    public Drug fetchDrugInformation(String serialNumber) {
-        return null;
+    public Drug fetchDrugInformation(String serialNumber) throws IOException {
+        try {
+            Tuple4<BigInteger, byte[], String, String> tup = contract.drugRegistry(new BigInteger(serialNumber)).send();
+            String currentOwner = tup.getValue3();
+            List<DrugTransfer> history = getTransferHistory(serialNumber);
+            byte[] ipfsHash = tup.getValue2();
+
+            if (!serialNumber.equalsIgnoreCase(tup.getValue1().toString())) {
+                throw new RuntimeException("The serial number "+serialNumber+" did not match the tuple: "+tup);
+            }
+
+            Drug drug = new Drug(serialNumber, history, currentOwner, ipfsHash);
+            drug.getTag().fetchFromIPFS(ipfs);
+            return drug;
+        } catch (Exception exc) {
+            throw new IOException(exc);
+        }
+
     }
 
     public void setUserInformation(Map<String, byte[]> attachments,
-                                   Map<String, String> extraAttributes) {
-
+                                   Map<String, String> extraAttributes) throws IOException {
+        IPFSTag tag = IPFSTag.uploadTag(ipfs, attachments, extraAttributes);
+        if (tag == null) {
+            Log.e("HakikaAPI", "setUserInformation could not get tag.");
+            return;
+        }
+        contract.updateUserInformation(tag.getIpfsKey());
     }
 
-    public void setProducerInformation(Map<String, byte[]> attachments,
+    public void setProducerInformation(String producer, Map<String, byte[]> attachments,
                                        Map<String, String> extraAttributes) throws IOException {
         IPFSTag tag = IPFSTag.uploadTag(ipfs, attachments, extraAttributes);
-
+        if (tag == null) {
+            Log.e("HakikaAPI", "setProducerInformation could not get tag.");
+            return;
+        }
+        contract.updateProducerInformation(producer, tag.getIpfsKey());
     }
 
     public List<String> addDrugs(String genericName, String name, String productionLocation,
@@ -167,6 +222,20 @@ public class HakikaAPI {
             exc.printStackTrace();
             return false;
         }
+    }
+
+    public void transferDrug(String to, String serialNumber, IPFSTag tag) {
+        contract.safeTransferFrom(credentials.getAddress(), to,
+                new BigInteger(serialNumber), tag.getIpfsKey(), BigInteger.ZERO);
+    }
+
+    public void transferDrugAndDestroy(String to, String serialNumber, IPFSTag tag) {
+        contract.transferForConsumption(credentials.getAddress(), to,
+                new BigInteger(serialNumber), tag.getIpfsKey());
+    }
+
+    public void destroyDrugs(String startSerial, String endSerial, IPFSTag tag) {
+        contract.destroyDrugs(new BigInteger(startSerial), new BigInteger(endSerial), tag.getIpfsKey());
     }
 
 
