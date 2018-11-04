@@ -5,13 +5,13 @@ module.exports = {
   networks: {
       ropsten: {
         provider: function() {
-          return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/");
+          return new HDWalletProvider(mnemonic, "https://sokol.poa.network:443/");
         },
         network_id: '3',
       },
-      test: {
+      development: {
         provider: function() {
-          return new HDWalletProvider(mnemonicGanache, "http://127.0.0.1:8545/");
+          return new HDWalletProvider(mnemonicGanache, "http://127.0.0.1:7545/");
         },
         network_id: '*',
       },
