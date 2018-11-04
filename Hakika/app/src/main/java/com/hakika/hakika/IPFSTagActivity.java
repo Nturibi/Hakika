@@ -55,7 +55,7 @@ public class IPFSTagActivity extends AppCompatActivity {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_double_string, parent, false);
                 }
                 TextView tv = convertView.findViewById(R.id.textView1);
-                TextView tv2 = convertView.findViewById(R.id.textView2)
+                TextView tv2 = convertView.findViewById(R.id.textView2);
                 if (entry != null) {
                     tv.setText(entry.getKey());
                     tv2.setText(entry.getValue());
