@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "232459144885",
+    "firebase_url": "https://hakika-aea3e.firebaseio.com",
+    "project_id": "hakika-aea3e",
+    "storage_bucket": "hakika-aea3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232459144885:android:3d28fe013963cc0c",
+        "android_client_info": {
+          "package_name": "com.hakika.hakika"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "232459144885-6gcuki6rr4b13ogvebi5c2t5jg6f2jf3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hakika.hakika",
+            "certificate_hash": "972431ab495dbd7009ba1bb1bf0e66ae5e9c0314"
+          }
+        },
+        {
+          "client_id": "232459144885-e0u8qvct4635e2484ovjr6fc86buihp6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-vrJ1NeCw13kPN-HLQg0nybkyYIr8Zic"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "232459144885-e0u8qvct4635e2484ovjr6fc86buihp6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

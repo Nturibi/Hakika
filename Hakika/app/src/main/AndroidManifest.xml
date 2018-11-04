@@ -21,10 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScanActivity" />
         <activity android:name=".VerifyActivity" />
         <activity android:name=".QrCodeScanner" />
-        <activity android:name=".MoreDetailsActivity"></activity>
+        <activity android:name=".MoreDetailsActivity" />
+        <activity android:name=".IPFSTagActivity"></activity>
     </application>
 
 </manifest>

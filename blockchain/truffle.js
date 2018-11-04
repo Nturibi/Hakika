@@ -3,11 +3,11 @@ var mnemonic = "mention purpose motor ride parent distance zoo gentle family chi
 var mnemonicGanache = "gospel enact jaguar burger curtain owner nuclear service civil tenant helmet swap";
 module.exports = {
   networks: {
-      ropsten: {
+      sokol: {
         provider: function() {
           return new HDWalletProvider(mnemonic, "https://sokol.poa.network:443/");
         },
-        network_id: '3',
+        network_id: '77',
       },
       development: {
         provider: function() {
