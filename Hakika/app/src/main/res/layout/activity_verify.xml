@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hakika.hakika.VerifyActivity">
+
+    <ImageView
+        android:id="@+id/ivVerify"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="204dp"
+        app:srcCompat="@drawable/unverified" />
+
+    <RelativeLayout
+        android:id="@+id/rl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivVerify"
+        android:layout_marginTop="34dp">
+
+        <TextView
+            android:id="@+id/tvVerify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/ivVerify"
+            android:layout_below="@+id/ivVerify"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="69dp"
+            android:layout_marginTop="82dp"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/btDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvVerify"
+            android:layout_centerHorizontal="true"
+            android:text="Details" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
