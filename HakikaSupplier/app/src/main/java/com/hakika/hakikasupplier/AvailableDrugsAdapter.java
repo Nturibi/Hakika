@@ -1,4 +1,4 @@
-//package hakika.hakika.com.hakikasupplier;
+//package com.hakika.hakikasupplier;
 //
 //import android.support.annotation.NonNull;
 //import android.support.v7.widget.RecyclerView;

@@ -1,4 +1,4 @@
-package hakika.hakika.com.hakikasupplier;
+package com.hakika.hakikasupplier;
 
 import org.junit.Test;
 

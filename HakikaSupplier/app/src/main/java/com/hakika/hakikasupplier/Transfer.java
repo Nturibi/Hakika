@@ -1,4 +1,4 @@
-package hakika.hakika.com.hakikasupplier;
+package com.hakika.hakikasupplier;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
