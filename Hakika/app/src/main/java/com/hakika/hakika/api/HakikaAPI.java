@@ -49,6 +49,21 @@ public class HakikaAPI {
     private static final BigInteger GAS_PRICE = new BigInteger("1000000000");
     private static final BigInteger GAS_LIMIT = new BigInteger("500000");
 
+    private static HakikaAPI adminAPI;
+    public static HakikaAPI createAdminAPI() {
+        if (adminAPI != null) return adminAPI;
+        return adminAPI = new HakikaAPI("https://sokol.poa.network:443/", "gateway.ipfs.io",
+                "0xd77633309a48eb435498972bda287e208c9c10a2",
+                "mention purpose motor ride parent distance zoo gentle family chief marriage remain");
+    }
+
+    private static HakikaAPI restrictedAPI;
+    public static HakikaAPI createRestrictedAPI() {
+        if (restrictedAPI != null) return restrictedAPI;
+        return restrictedAPI = new HakikaAPI("https://sokol.poa.network:443/", "gateway.ipfs.io",
+                "0xd77633309a48eb435498972bda287e208c9c10a2", null);
+    }
+
     // IPFS endpoint: https://gateway.ipfs.io
     // web3 endpoint: https://sokol.poa.network:443/
     public HakikaAPI(String web3Endpoint, String ipfsEndpoint, String contractAddress,
@@ -142,7 +157,7 @@ public class HakikaAPI {
         return getProducerInformation(producer).getExtraAttributes().get("friendlyName");
     }
 
-    public Drug fetchDrugInformation(String serialNumber) throws IOException {
+    public Drug getDrugInformation(String serialNumber) throws IOException {
         try {
             Tuple4<BigInteger, byte[], String, String> tup = contract.drugRegistry(new BigInteger(serialNumber)).send();
             String currentOwner = tup.getValue3();
@@ -184,12 +199,12 @@ public class HakikaAPI {
 
     public List<String> addDrugs(String genericName, String name, String productionLocation,
                            Date expirationDate, Date productionDate, long batchNumber,
-                           String useInformation, Map<String, byte[]> attachments, long number) throws IOException {
+                           String useInformation, Map<String, String> extraAttributes,
+                                 Map<String, byte[]> attachments, long number) throws IOException {
         String exprDate = expirationDate.getTime()+"";
         String prodDate = productionDate.getTime()+"";
         String batchString = batchNumber+"";
 
-        Map<String, String> extraAttributes = new HashMap<>();
         extraAttributes.put("genericName", genericName);
         extraAttributes.put("name", name);
         extraAttributes.put("productionDate", prodDate);

@@ -20,20 +20,20 @@ public class DetailActivity extends AppCompatActivity {
         String from = "";
         String to  = "";
         String fromDate = "";
-        String toDate = "";
+        String serialNumber = "";
         if(extras != null){
             from = extras.getString(MoreItemAdapter.FROM);
             to = extras.getString(MoreItemAdapter.TO);
             fromDate = extras.getString(MoreItemAdapter.FROM_DATE);
-            toDate = extras.getString(MoreItemAdapter.TO_DATE);
+            serialNumber = extras.getString(MoreItemAdapter.SERIAL_NUMBER);
         }
 
         TextView tvFrom = findViewById(R.id.tvFrom);
         tvFrom.setText(from);
 //        Toast.makeText( getApplicationContext(), getIntent().getStringExtra(MoreItemAdapter.FROM),
 //                Toast.LENGTH_SHORT).show();
-        Toast.makeText( getApplicationContext(), extras.getString(MoreItemAdapter.TO),
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText( getApplicationContext(), extras.getString(MoreItemAdapter.TO),
+//                Toast.LENGTH_SHORT).show();
 
         TextView tvTo = findViewById(R.id.tvTo);
         tvTo.setText(to);
