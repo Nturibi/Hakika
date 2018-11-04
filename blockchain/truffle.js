@@ -8,6 +8,8 @@ module.exports = {
           return new HDWalletProvider(mnemonic, "https://sokol.poa.network:443/");
         },
         network_id: '77',
+        gas: 4000000,
+        gasPrice: 1000000000
       },
       development: {
         provider: function() {

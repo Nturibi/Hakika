@@ -9,6 +9,8 @@ import com.hakika.hakika.api.models.IPFSTag;
 
 import org.json.JSONObject;
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Wallet;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
@@ -23,6 +25,7 @@ import org.web3j.tuples.generated.Tuple4;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.interfaces.ECKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -47,22 +50,39 @@ public class HakikaAPI {
     private Credentials credentials;
 
     private static final BigInteger GAS_PRICE = new BigInteger("1000000000");
-    private static final BigInteger GAS_LIMIT = new BigInteger("500000");
+    private static final BigInteger GAS_LIMIT = new BigInteger("5000000");
+
+    // https://ipfs.infura.io:5001
+
+    private static HakikaAPI adminAPI;
+    public static HakikaAPI createAdminAPI() {
+        if (adminAPI != null) return adminAPI;
+        return adminAPI = new HakikaAPI("https://sokol.poa.network:443/", "ipfs.infura.io", 5001,
+                "0xd77633309a48eb435498972bda287e208c9c10a2",
+                "d2a793ee62b6f739fe5cabf27bec54f5e70a09a30b40bbc18d879b7afab9f912");
+    }
+
+    private static HakikaAPI restrictedAPI;
+    public static HakikaAPI createRestrictedAPI() {
+        if (restrictedAPI != null) return restrictedAPI;
+        return restrictedAPI = new HakikaAPI("https://sokol.poa.network:443/", "ipfs.infura.io", 5001,
+                "0xd77633309a48eb435498972bda287e208c9c10a2", null);
+    }
 
     // IPFS endpoint: https://gateway.ipfs.io
     // web3 endpoint: https://sokol.poa.network:443/
-    public HakikaAPI(String web3Endpoint, String ipfsEndpoint, String contractAddress,
-                     String mnemonic) {
+    public HakikaAPI(String web3Endpoint, String ipfsEndpoint, int ipfsPort, String contractAddress,
+                     String privKey) {
         web3j = Web3jFactory.build(new HttpService(web3Endpoint));
-        ipfs = new IPFS(ipfsEndpoint, 443, "/api/v0/", true);
-        contract = DrugSupply.load(contractAddress, web3j,
-                credentials, GAS_PRICE, GAS_LIMIT);
-        if (mnemonic != null) {
-            credentials = WalletUtils.loadBip39Credentials(null, mnemonic);
+        ipfs = new IPFS(ipfsEndpoint, ipfsPort, "/api/v0/", true);
+        if (privKey != null) {
+            credentials = Credentials.create(privKey);
         } else {
             credentials = WalletUtils.loadBip39Credentials(null,
                     "gospel enact jaguar burger curtain owner nuclear service civil tenant helmet swap");
         }
+        contract = DrugSupply.load(contractAddress, web3j,
+                credentials, GAS_PRICE, GAS_LIMIT);
     }
 
     public static byte[] getIPFSFile(IPFS ipfs, byte[] ipfsKey) throws IOException {
@@ -92,8 +112,10 @@ public class HakikaAPI {
            return new DrugTransfer(dter._from, dter._to, dter._tokenId.toString(), dter.ipfsHash,
                    new Date(dter.timestamp.longValue()));
         }).forEach(dt -> {
-            transfers.add(dt);
+            if (dt.getSerialNumber().equalsIgnoreCase(serialNumber))
+                transfers.add(dt);
         });
+
         return transfers;
     }
 
@@ -142,7 +164,7 @@ public class HakikaAPI {
         return getProducerInformation(producer).getExtraAttributes().get("friendlyName");
     }
 
-    public Drug fetchDrugInformation(String serialNumber) throws IOException {
+    public Drug getDrugInformation(String serialNumber) throws IOException {
         try {
             Tuple4<BigInteger, byte[], String, String> tup = contract.drugRegistry(new BigInteger(serialNumber)).send();
             String currentOwner = tup.getValue3();
@@ -184,12 +206,12 @@ public class HakikaAPI {
 
     public List<String> addDrugs(String genericName, String name, String productionLocation,
                            Date expirationDate, Date productionDate, long batchNumber,
-                           String useInformation, Map<String, byte[]> attachments, long number) throws IOException {
+                           String useInformation, Map<String, String> extraAttributes,
+                                 Map<String, byte[]> attachments, long number) throws IOException {
         String exprDate = expirationDate.getTime()+"";
         String prodDate = productionDate.getTime()+"";
         String batchString = batchNumber+"";
 
-        Map<String, String> extraAttributes = new HashMap<>();
         extraAttributes.put("genericName", genericName);
         extraAttributes.put("name", name);
         extraAttributes.put("productionDate", prodDate);
@@ -226,7 +248,7 @@ public class HakikaAPI {
 
     public void transferDrug(String to, String serialNumber, IPFSTag tag) {
         contract.safeTransferFrom(credentials.getAddress(), to,
-                new BigInteger(serialNumber), tag.getIpfsKey(), BigInteger.ZERO);
+                new BigInteger(serialNumber), tag.getIpfsKey(), BigInteger.ONE);
     }
 
     public void transferDrugAndDestroy(String to, String serialNumber, IPFSTag tag) {
@@ -242,7 +264,12 @@ public class HakikaAPI {
         contract.addProducer(producer, ipfsTag.getIpfsKey());
     }
 
+    public IPFS getIpfs() {
+        return ipfs;
+    }
 
-
+    public String getAddress() {
+        return credentials.getAddress();
+    }
 
 }

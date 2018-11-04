@@ -28,8 +28,6 @@ public class VerifyActivity extends AppCompatActivity {
             result = extras.getString(QrCodeScanner. EXTRA_MESSAGE);
             result = result.replace("http://", "");
         }
-//        Toast.makeText( getApplicationContext(), result,
-//                Toast.LENGTH_SHORT).show();
         // the varible result stores what was read from the qr code. make use of it to set the boolean!
 
         boolean isVerified = true;
