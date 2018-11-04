@@ -5,6 +5,7 @@ import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,13 +23,15 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     public static final String EXTRA_MESSAGE = "USER";
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
+        // Make sure the toolbar exists in the activity and is not null
+        setSupportActionBar(toolbar);
         mAuth = FirebaseAuth.getInstance();
         Button userLogin = (Button) findViewById(R.id.btUserlogin);
         userLogin.setOnClickListener(new View.OnClickListener() {
