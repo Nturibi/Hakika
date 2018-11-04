@@ -148,6 +148,9 @@ contract DrugSupply is ERC721, ERC165, Permissions {
         emit ProducerRemoved(msg.sender, ipfsHash, now);
     }
     
+    function isVerifiedProducer(address addr) external view returns (bool) {
+        return users[addr].producerInformationIPFS.length != 0;
+    }
     
     event InformationUpdated(address indexed _address, bytes indexed _ipfshash, uint timestamp);
     
