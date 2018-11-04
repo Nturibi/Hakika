@@ -1,6 +1,5 @@
 package com.hakika.hakika.api.models;
 
-import com.google.common.collect.ImmutableList;
 import com.hakika.hakika.api.HakikaAPI;
 
 import org.json.JSONArray;

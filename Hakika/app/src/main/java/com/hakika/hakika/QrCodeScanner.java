@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import com.google.zxing.Result;
@@ -25,11 +26,14 @@ public class QrCodeScanner extends AppCompatActivity implements ZXingScannerView
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
-        checkCameraPermissionGranted();
         // Programmatically initialize the scanner view
         mScannerView = new ZXingScannerView(this);
         // Set the scanner view as the content view
         setContentView(mScannerView);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        checkCameraPermissionGranted();
+
 
     }
 
