@@ -13,7 +13,7 @@
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="92dp"
+        android:layout_marginBottom="32dp"
         app:srcCompat="@drawable/verified" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="158dp"
         android:text="From" />
 
     <TextView
@@ -39,9 +39,62 @@
         android:layout_width="100dp"
         android:layout_height="200dp"
         android:layout_alignStart="@+id/imageView2"
-        android:layout_below="@+id/tvFrom"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_centerVertical="true"
         app:srcCompat="@drawable/arrow" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvFrom"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/rgjn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/dsjkkjv"
+        android:layout_below="@+id/textView11"
+        android:layout_marginTop="39dp"
+        android:text="Drug Name"
+        tools:text="Drug Name" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvFrom"
+        android:layout_alignEnd="@+id/tvFrom"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvDrugName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/rgjn"
+        android:layout_alignBottom="@+id/rgjn"
+        android:layout_alignEnd="@+id/imageView5"
+        android:text="Advil"
+        tools:text="Advil" />
+
+    <TextView
+        android:id="@+id/dsjkkjv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rgjn"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@+id/textView9"
+        android:text="Expiry Date"
+        tools:text="Expiry Date" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvDrugName"
+        android:layout_alignTop="@+id/dsjkkjv"
+        android:text="09/11/2019" />
 
 </RelativeLayout>
