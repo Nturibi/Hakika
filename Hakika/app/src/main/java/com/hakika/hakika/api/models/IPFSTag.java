@@ -117,4 +117,15 @@ public class IPFSTag {
         byte[] encoded = information.toString().getBytes(StandardCharsets.UTF_8);
         return new IPFSTag(HakikaAPI.uploadToIPFS(ipfs, encoded).toBytes());
     }
+
+    private static IPFSTag defaultTag = null;
+    public static IPFSTag defaultTag(IPFS ipfs) {
+        if (defaultTag != null) return defaultTag;
+        try {
+            defaultTag = uploadTag(ipfs, new HashMap<>(), new HashMap<>());
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+        return defaultTag;
+    }
 }

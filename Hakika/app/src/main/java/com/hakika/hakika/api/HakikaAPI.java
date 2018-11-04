@@ -238,6 +238,11 @@ public class HakikaAPI {
         contract.destroyDrugs(new BigInteger(startSerial), new BigInteger(endSerial), tag.getIpfsKey());
     }
 
+    public void addProducer(String producer, IPFSTag ipfsTag) {
+        contract.addProducer(producer, ipfsTag.getIpfsKey());
+    }
+
+
 
 
 }
