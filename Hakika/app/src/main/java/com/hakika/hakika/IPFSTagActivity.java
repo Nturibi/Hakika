@@ -31,10 +31,6 @@ import java.util.Random;
 public class IPFSTagActivity extends AppCompatActivity {
     private Random random = new Random();
 
-    private String from;
-    private String to;
-    private Date date;
-    private String serialNumber;
     private Map<String, String> attributes;
     private Map<String, byte[]> files;
 
@@ -44,36 +40,29 @@ public class IPFSTagActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ipfstag);
 
         Intent intent = getIntent();
-        from = intent.getStringExtra("from");
-        to = intent.getStringExtra("to");
-        date = new Date(intent.getLongExtra("timestamp", 0));
-        serialNumber = intent.getStringExtra("serialNumber");
-
         Serializable attr = intent.getSerializableExtra("attributes");
         attributes = (Map<String, String>) attr;
         Serializable fil = intent.getSerializableExtra("files");
         files = (Map<String, byte[]>) fil;
 
-        TableLayout tableLayout = findViewById(R.id.extraAttributesTable);
-        for (Map.Entry<String, String> entry : attributes.entrySet()) {
-            TableRow tr = new TableRow(this);
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT);
-            tr.setLayoutParams(layoutParams);
-
-            TextView keyView = new TextView(this);
-            keyView.setText(entry.getKey());
-            keyView.setLayoutParams(layoutParams);
-            tr.addView(keyView);
-
-            TextView valueView = new TextView(this);
-            valueView.setText(entry.getValue());
-            valueView.setLayoutParams(layoutParams);
-            tr.addView(valueView);
-
-            tableLayout.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                    TableLayout.LayoutParams.WRAP_CONTENT));
-        }
+        ListView attributesTable = findViewById(R.id.extraAttributesTable);
+        ArrayList<Map.Entry<String, String>> keyValueList = new ArrayList<>(attributes.entrySet());
+        attributesTable.setAdapter(new ArrayAdapter<Map.Entry<String, String>>(this, 0, keyValueList) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Map.Entry<String, String> entry = getItem(position);
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_double_string, parent, false);
+                }
+                TextView tv = convertView.findViewById(R.id.textView1);
+                TextView tv2 = convertView.findViewById(R.id.textView2)
+                if (entry != null) {
+                    tv.setText(entry.getKey());
+                    tv2.setText(entry.getValue());
+                }
+                return convertView;
+            }
+        });
 
         ListView attachmentListView = findViewById(R.id.attachmentListView);
         ArrayList<Map.Entry<String, byte[]>> attachmentList = new ArrayList<>(files.entrySet());

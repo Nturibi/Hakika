@@ -25,7 +25,8 @@
         <activity android:name=".QrCodeScanner" />
         <activity android:name=".MoreDetailsActivity" />
         <activity android:name=".IPFSTagActivity" />
-        <activity android:name=".QRCodeGenerator"></activity>
+        <activity android:name=".QRCodeGenerator" />
+        <activity android:name=".IPFSTagEditor"></activity>
     </application>
 
 </manifest>

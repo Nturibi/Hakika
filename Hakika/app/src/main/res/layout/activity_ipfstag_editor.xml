@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IPFSTagActivity">
+    tools:context=".IPFSTagEditor">
 
     <TextView
         android:id="@+id/extraAttributesTitle"
@@ -18,20 +18,4 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp" />
 
-    <ListView
-        android:id="@+id/extraAttributesTable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/extraAttributesTitle"
-        android:layout_alignStart="@+id/extraAttributesTitle">
-
-    </ListView>
-
-    <ListView
-        android:id="@+id/attachmentListView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/extraAttributesTable">
-
-    </ListView>
 </RelativeLayout>
