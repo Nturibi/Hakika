@@ -27,13 +27,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import io.ipfs.multihash.Multihash;
 
 public class MoreDetailsActivity extends AppCompatActivity {
     private String result;
+    private HakikaAPI api;
+    private List<DrugTransfer> transferList;
 
+    private Map<String, String> nameMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +52,11 @@ public class MoreDetailsActivity extends AppCompatActivity {
             result = result.replace("http://", "");
         }
 
-        HakikaAPI api = HakikaAPI.createRestrictedAPI();
-        List<DrugTransfer> transferList = api.getTransferHistory(result);
+        api = HakikaAPI.createRestrictedAPI();
+        transferList = api.getTransferHistory(result);
         if (transferList.isEmpty()) {
             HakikaAPI adminapi = HakikaAPI.createAdminAPI();
             System.out.println("ADDRESSSSSSSSS: "+adminapi.getAddress());
-            transferList = adminapi.getTransferHistory(result);
             try {
                 /*adminapi.addProducer(adminapi.getAddress(), IPFSTag.defaultTag(adminapi.getIpfs()));
                 adminapi.addDrugs("Alprazolam", "Sleepy", "China", new Date(), new Date(), 10, "eat lots of pills",
@@ -62,8 +65,9 @@ public class MoreDetailsActivity extends AppCompatActivity {
                     System.out.println("TRANSFERRING DRUGS");
                     adminapi.transferDrug(api.getAddress(), i + "", IPFSTag.defaultTag(adminapi.getIpfs()));
                 }*/
-                String ipfsKey = new Multihash(adminapi.getProducerInformation(adminapi.getAddress()).getIpfsKey()).toBase58();
+                IPFSTag tag = adminapi.getProducerInformation(adminapi.getAddress());
                 String defaultKey = new Multihash(IPFSTag.defaultTag(adminapi.getIpfs()).getIpfsKey()).toBase58();
+                String ipfsKey = tag.getIpfsKey().length > 0 ? new Multihash(tag.getIpfsKey()).toBase58() : defaultKey;
                 if (ipfsKey.equals(defaultKey)) {
                     HashMap<String, String> producerInformation = new HashMap<>();
                     producerInformation.put("friendlyName", "Kenneth's fake drug lab");
@@ -79,7 +83,7 @@ public class MoreDetailsActivity extends AppCompatActivity {
         //@peter Add your data here
         // Construct the data source
 // Create the adapter to convert the array to views
-        MoreItemAdapter adapter = new MoreItemAdapter(this, transferList, api);
+        MoreItemAdapter adapter = new MoreItemAdapter(this, transferList, nameMap);
 // Attach the adapter to a ListView
         ListView listView = findViewById(R.id.lvMore);
         listView.setAdapter(adapter);
@@ -88,11 +92,33 @@ public class MoreDetailsActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                updateNameMap();
                 adapter.notifyDataSetChanged();
                 handler.postDelayed(this, 500);
             }
         };
         handler.post(runnable);
+    }
+
+    private void updateNameMap() {
+
+        List<String> names = new ArrayList<>();
+        for (DrugTransfer transfer : transferList) {
+            names.add(transfer.getFromAddress());
+            names.add(transfer.getToAddress());
+        }
+
+        try {
+            for (String name : names) {
+                String friendlyName = api.getFriendlyProducerName(name);
+                if (friendlyName == null) {
+                    friendlyName = api.getFriendlyUserName(name);
+                }
+                nameMap.put(name, friendlyName);
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 
 }
