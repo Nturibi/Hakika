@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.hakika.hakika.api.HakikaAPI;
 import com.hakika.hakika.api.models.DrugTransfer;
 import com.hakika.hakika.models.MoreItem;
 
@@ -19,6 +20,7 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kenneth on 11/4/18.
@@ -33,10 +35,19 @@ public class MoreItemAdapter extends ArrayAdapter<DrugTransfer> {
 
     private Context context;
 
-    public MoreItemAdapter(Context context, List<DrugTransfer> users) {
+    private Map<String, String> nameMap;
+    public MoreItemAdapter(Context context, List<DrugTransfer> users, Map<String, String> friendlyNames) {
         super(context, 0, users);
+        nameMap = friendlyNames;
     }
 
+    private String truncateString(String str, int maxLength) {
+        if (str.length() > maxLength) {
+            return str.substring(0, maxLength-3) + "...";
+        } else {
+            return str;
+        }
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         context = getContext();
@@ -54,8 +65,15 @@ public class MoreItemAdapter extends ArrayAdapter<DrugTransfer> {
 
         SimpleDateFormat format = new SimpleDateFormat("MMM dd,yyyy hh:mm a");
         // Populate the data into the template view using the data object
-        tvFrom.setText(item.getFromAddress());
-        tvTo.setText(item.getToAddress());
+
+        String fromAddress = item.getFromAddress();
+        String toAddress = item.getToAddress();
+
+        String idStringFrom = String.format("%s (%s)", truncateString(fromAddress, 19), nameMap.get(fromAddress));
+        String idStringTo = String.format("%s (%s)", truncateString(toAddress, 19), nameMap.get(toAddress));
+
+        tvFrom.setText(idStringFrom);
+        tvTo.setText(idStringTo);
         tvFromDate.setText(format.format(item.getDate()));
         // Return the completed view to render on screen
         convertView.setOnClickListener(new View.OnClickListener() {

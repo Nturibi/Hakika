@@ -1,6 +1,7 @@
 package com.hakika.hakika;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
