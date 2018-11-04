@@ -1,7 +1,6 @@
 package com.hakika.hakika;
 
 import android.content.Intent;
-import android.nfc.Tag
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

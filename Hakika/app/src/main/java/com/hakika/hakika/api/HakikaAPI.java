@@ -257,7 +257,4 @@ public class HakikaAPI {
         contract.addProducer(producer, ipfsTag.getIpfsKey());
     }
 
-
-
-
 }
