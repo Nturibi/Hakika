@@ -32,7 +32,15 @@
         <activity
             android:name=".MoreDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".DetailActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".IPFSTagActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".QRCodeGenerator"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".IPFSTagEditor"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
