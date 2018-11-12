@@ -41,7 +41,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        Toast.makeText(this, "Got user", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Got user", Toast.LENGTH_SHORT).show();
     }
 
     private void onClickLogin(){

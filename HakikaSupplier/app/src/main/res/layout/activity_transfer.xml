@@ -13,73 +13,19 @@
         android:layout_marginStart="163dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="163dp"
-        android:text="Recipient Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <SearchView
-        android:id="@+id/searchDrug"
-        android:layout_width="368dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRecipientName" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="9dp"
-        android:text="Top drugs"
-        app:layout_constraintBottom_toTopOf="@+id/rvAvailableDrugs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchDrug" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvAvailableDrugs"
-        android:layout_width="368dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchDrug" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Selected drugs"
-        app:layout_constraintBottom_toTopOf="@+id/rvSelectedDrugs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvAvailableDrugs"
-        app:layout_constraintVertical_bias="0.15" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvSelectedDrugs"
-        android:layout_width="368dp"
-        android:layout_height="206dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="64dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvAvailableDrugs"
-        app:layout_constraintVertical_bias="1.0" />
+        android:layout_marginTop="9dp"
+        android:text="SELECTED DRUGS"
+        app:layout_constraintStart_toStartOf="@+id/etDrugName"
+        app:layout_constraintTop_toBottomOf="@+id/etDrugName" />
 
     <Button
         android:id="@+id/btSend"
@@ -91,4 +37,45 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="send" />
+
+    <EditText
+        android:id="@+id/etDrugName"
+        android:layout_width="254dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="11dp"
+        android:ems="10"
+        android:hint="Enter drug name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/btAddPage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRecipientName" />
+
+    <Button
+        android:id="@+id/btAddPage"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Add"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRecipientName"
+        tools:text="Add" />
+
+    <LinearLayout
+        android:id="@+id/llAddedDrugs"
+        android:layout_width="368dp"
+        android:layout_height="322dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btSend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"></LinearLayout>
 </android.support.constraint.ConstraintLayout>

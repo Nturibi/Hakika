@@ -20,30 +20,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <Button
         android:id="@+id/btSignUp"
-        android:layout_width="wrap_content"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="45dp"
         android:text="Sign Up "
-        app:layout_constraintBottom_toTopOf="@+id/btSignIn"
-        app:layout_constraintEnd_toEndOf="@+id/btSignIn"
-        app:layout_constraintStart_toStartOf="@+id/btSignIn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="Sign Up" />
 
     <Button
         android:id="@+id/btSignIn"
-        android:layout_width="wrap_content"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginEnd="148dp"
-        android:layout_marginBottom="46dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="45dp"
         android:text="Sign In"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         tools:text="Sign In" />
 
 </android.support.constraint.ConstraintLayout>
